@@ -68,7 +68,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
         if (!startYear)
           startYear = data[0].year;
         setCurrentYear(startYear);
-        updateData();
+        graphRef.current.changeData(getData(data[0].year));
       }
     };
     fetchData();
@@ -98,7 +98,15 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
     setIsPause(true);
   }
 
+  const slider = (year: number) => {
+    setCurrentYear(year);
+    graphRef.current.changeData(getData(year));
+  }
+
   const renderControl = () => {
+    const minYear = dataRef.current.at(0)?.year;
+    const maxYear = dataRef.current.at(-1)?.year;
+
     return (
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: '32px' }}>
         <div>
@@ -106,6 +114,19 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
             ? <PlayCircleOutlined onClick={play}/>
             : <PauseCircleOutlined onClick={pause} />
           }
+        </div>
+        <div style={{ display: 'flex', flexGrow: '1' }}>
+          <div>{minYear}</div>
+          <input
+            min={minYear}
+            max={maxYear}
+            type='range'
+            value={currentYear}
+            step={1}
+            style={{ width: '100%', margin: '0 5px' }}
+            onChange={({ target }) => slider(+target.value)}
+          />
+          <div>{maxYear}</div>
         </div>
       </div>
     )
