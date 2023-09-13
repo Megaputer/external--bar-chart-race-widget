@@ -1,7 +1,7 @@
 {
   "scripts": {
     "prod": "yarn && webpack --config ./webpack.config.js --progress --mode=production",
-    "dev": "yarn && webpack --config ./webpack.config.js --progress --mode=development",
+    "dev": "yarn && webpack --config ./webpack.config.js --progress --mode=development --output-path=\"C:/Megaputer Intelligence/PolyAnalyst 6.5 Server 64-bit/data/externals\"",
     "dev:watch": "yarn dev --watch"
   },
   "dependencies": {
