@@ -37,6 +37,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
           updateData();
           return nextYear;
         }
+        setIsPause(true);
         return prevYear;
       });
     }, 100);
