@@ -14,6 +14,7 @@ interface Props {
 
 export const MyComponent: React.FC<Props> = ({ requestor }) => {
   const wrapperGuid = React.useRef<{ wrapperGuid: string }>({ wrapperGuid: '' });
+  const [currentYear, setCurrentYear] = React.useState(0);
   const dataRef = React.useRef<DataType[]>([]);
   const graphRef = React.useRef<any>(null);
 
@@ -45,12 +46,27 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
 
       if (data.length > 0) {
         dataRef.current = data;
+        let startYear = currentYear;
+        if (!startYear)
+          startYear = data[0].year;
+        setCurrentYear(startYear);
         graphRef.current.changeData(getData(data[0].year));
       }
     };
     fetchData();
 
   }, [requestor]);
+
+  const renderCurrentYear = () => {
+    const style: React.CSSProperties = {
+      position: 'absolute',
+      bottom: '20%',
+      right: '10%',
+      fontSize: '2em'
+    };
+
+    return <div style={style}>{currentYear}</div>
+  }
 
   const config: BarConfig = React.useMemo(() => ({
     data: [],
@@ -85,6 +101,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      {renderCurrentYear()}
       <Bar {...config} />
     </div>
   );
