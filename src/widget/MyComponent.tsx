@@ -58,6 +58,26 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
     yField: 'country',
     seriesField: 'country',
     legend: false,
+    xAxis: {
+      label: {
+        formatter: (val) => {
+          const formatter = Intl.NumberFormat('ru', { notation: 'compact' });
+          return formatter.format(+val);
+        }
+      }
+    },
+    label: {
+      position: 'right',
+      content: ({ population }) => {
+        const formatter = Intl.NumberFormat('ru', { notation: 'compact' });
+        return formatter.format(population);
+      },
+      style: {
+        fill: 'back'
+      }
+    },
+    style: {},
+    appendPadding: [0, 80, 0, 0],
     onReady: (bar) => {
       graphRef.current = bar;
     }
