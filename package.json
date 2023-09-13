@@ -5,6 +5,8 @@
     "dev:watch": "yarn dev --watch"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.5",
+    "@ant-design/plots": "^1.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tslib": "2.4.0",
