@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ApiRequestor, Table } from 'pa-typings';
+import { ApiRequestor } from 'pa-typings';
 import { Bar, type BarConfig } from '@ant-design/plots';
+import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 
 type DataType = {
   country: string;
@@ -17,6 +18,8 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
   const [currentYear, setCurrentYear] = React.useState(0);
   const dataRef = React.useRef<DataType[]>([]);
   const graphRef = React.useRef<any>(null);
+  const [isPause, setIsPause] = React.useState(true);
+  const timeout = React.useRef(-1);
 
   const getData = (year: number) => {
     return dataRef.current
@@ -25,7 +28,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
   };
 
   const updateData = () => {
-    window.setTimeout(() => {
+    timeout.current = window.setTimeout(() => {
       setCurrentYear((prevYear) => {
         const nextYear = prevYear + 1;
         const data = getData(nextYear);
@@ -83,6 +86,31 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
     return <div style={style}>{currentYear}</div>
   }
 
+  const play = () => {
+    setIsPause(false);
+    if (currentYear === dataRef.current.at(-1)?.year)
+      setCurrentYear(dataRef.current.at(0)!.year)
+    updateData();
+  }
+
+  const pause = () => {
+    clearTimeout(timeout.current);
+    setIsPause(true);
+  }
+
+  const renderControl = () => {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: '32px' }}>
+        <div>
+          { isPause
+            ? <PlayCircleOutlined onClick={play}/>
+            : <PauseCircleOutlined onClick={pause} />
+          }
+        </div>
+      </div>
+    )
+  };
+
   const config: BarConfig = React.useMemo(() => ({
     data: [],
     xField: 'population',
@@ -116,6 +144,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      {renderControl()}
       {renderCurrentYear()}
       <Bar {...config} />
     </div>
