@@ -24,6 +24,21 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
       .slice(0, 10);
   };
 
+  const updateData = () => {
+    window.setTimeout(() => {
+      setCurrentYear((prevYear) => {
+        const nextYear = prevYear + 1;
+        const data = getData(nextYear);
+        if (data.length) {
+          graphRef.current.changeData(data);
+          updateData();
+          return nextYear;
+        }
+        return prevYear;
+      });
+    }, 100);
+  };
+
   React.useEffect(() => {
     const fetchData = async () => {
       const guid = wrapperGuid.current = await requestor.wrapperGuid();
@@ -50,7 +65,7 @@ export const MyComponent: React.FC<Props> = ({ requestor }) => {
         if (!startYear)
           startYear = data[0].year;
         setCurrentYear(startYear);
-        graphRef.current.changeData(getData(data[0].year));
+        updateData();
       }
     };
     fetchData();
