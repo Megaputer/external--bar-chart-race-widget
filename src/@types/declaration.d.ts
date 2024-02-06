@@ -1,4 +1,4 @@
-interface ExternalDSWidget {
+interface IWidget {
   dispose(): void;
   onUpdateAppearance();
   render(parent: HTMLElement): void;

@@ -1,11 +1,12 @@
-import * as React from 'react';
+module.exports = function ({ name, component }) {
+  return (
+`import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import type { TConditionNode, ApiRequestor } from 'pa-typings';
 
-import { MyComponent } from './MyComponent';
+import { ${component.name} } from './${component.filename}';
 
-
-export class MyWidget implements ExternalDSWidget {
+class ${name} implements IWidget {
   private requestor: ApiRequestor | null = null;
   private root: Root | null = null;
   private condition: TConditionNode | undefined = undefined;
@@ -28,9 +29,12 @@ export class MyWidget implements ExternalDSWidget {
 
   private updateContainer() {
     if (this.root && this.requestor)
-      this.root.render(
-        <MyComponent requestor={this.requestor} />);
+      this.root.render(<${component.name} requestor={this.requestor} />);
   }
 
   dispose(): void { }
+}
+
+export const create = (args: WidgetArgs) => new ${name}(args);`
+);
 }
