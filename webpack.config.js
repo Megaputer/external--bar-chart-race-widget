@@ -4,12 +4,11 @@ module.exports = function (_, argv = {}) {
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
   const CopyPlugin = require('copy-webpack-plugin');
   const TerserPlugin = require("terser-webpack-plugin");
-
-  const getConfig = require('./bin/utils');
+  const { getWebpackEntriesPatterns } = require('external-widget-cli');
 
   const { mode = 'production', outputPath = path.resolve(__dirname, 'build') } = argv;
   const isProduction = mode === 'production';
-  const { entry, patterns } = getConfig(outputPath, Boolean(argv.outputPath));
+  const { entry, patterns } = getWebpackEntriesPatterns(outputPath);
 
   const config = {
     entry,

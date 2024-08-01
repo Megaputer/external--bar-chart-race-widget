@@ -3,8 +3,8 @@
     "prod": "yarn && webpack --config ./webpack.config.js --progress --mode=production",
     "dev": "yarn && webpack --config ./webpack.config.js --progress --mode=development --output-path=\"C:/Megaputer Intelligence/PolyAnalyst 6.5 Server 64-bit/data/externals\"",
     "dev:watch": "yarn dev --watch",
-    "create:widget": "node ./bin/generator.js",
-    "archive": "node ./bin/archiver.js"
+    "create:widget": "./node_modules/.bin/external-widget create",
+    "archive": "./node_modules/.bin/external-widget archive"
   },
   "dependencies": {
     "@ant-design/icons": "5.2.5",
@@ -20,17 +20,14 @@
     "@types/react-dom": "18.0.11",
     "circular-dependency-plugin": "5.2.2",
     "copy-webpack-plugin": "12.0.2",
+    "external-widget-cli": "megaputer/external-widget-cli",
     "fork-ts-checker-webpack-plugin": "8.0.0",
-    "inquirer": "8.0.0",
-    "jszip": "3.10.1",
-    "pa-typings": "https://github.com/Megaputer/pa-typings.git#f308bc9bd8dac882c1dc636d3e9b4a0e49f9df8d",
+    "pa-typings": "megaputer/pa-typings",
     "terser-webpack-plugin": "5.3.10",
     "ts-loader": "9.4.2",
-    "uuid": "9.0.1",
     "webpack": "5.80.0",
     "webpack-cli": "5.0.2",
-    "webpack-dev-server": "4.13.3",
-    "yargs": "17.7.2"
+    "webpack-dev-server": "4.13.3"
   },
   "engines": {
     "node": ">=18.17.1"
